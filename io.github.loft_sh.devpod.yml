@@ -1,0 +1,26 @@
+id: io.github.loft_sh.devpod
+runtime: org.freedesktop.Platform
+runtime-version: '23.08'
+sdk: org.freedesktop.Sdk
+command: devpod
+build-options:
+  env:
+    PATH: /app/go/go/bin:/usr/bin:/bin
+modules:
+  - name: go
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/go
+      - tar -C /app/go -xzf go1.20.5.linux-amd64.tar.gz
+    sources:
+      - type: file
+        url: https://dl.google.com/go/go1.20.5.linux-amd64.tar.gz
+        sha256: d7ec48cde0d3d2be2c69203bc3e0a44de8660b9c09a6e85c4732a3f7dc442612
+  - name: devpod
+    buildsystem: simple
+    build-commands:
+      - /app/go/go/bin/go build -o /app/bin/devpod ./cmd/agent
+    sources:
+      - type: git
+        url: https://github.com/loft-sh/devpod.git
+        tag: main
